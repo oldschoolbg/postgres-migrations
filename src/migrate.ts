@@ -68,7 +68,7 @@ export async function migrate(
   if (dbConfig.ensureDatabaseExists === true) {
     // Check whether database exists
     const {user, password, host, port} = dbConfig
-    const client = new pg.Client({
+    const config = {
       database:
         dbConfig.defaultDatabase != null
           ? dbConfig.defaultDatabase
@@ -77,7 +77,12 @@ export async function migrate(
       password,
       host,
       port,
-    })
+      ssl: dbConfig.ssl
+    }
+    if (!dbConfig.ssl) {
+      delete config.ssl;
+    }
+    const client = new pg.Client(config)
 
     const runWith = withConnection(log, async (connectedClient) => {
       const result = await connectedClient.query({
@@ -143,7 +148,7 @@ function runMigrations(intendedMigrations: Array<Migration>, log: Logger) {
       log("Finished migrations")
 
       return completedMigrations
-    } catch (e) {
+    } catch (e: any) {
       const error: MigrationError = new Error(
         `Migration failed. Reason: ${e.message}`,
       )

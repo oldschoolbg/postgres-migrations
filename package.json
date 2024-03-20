@@ -1,7 +1,6 @@
 {
-  "name": "@oldschool/postgres-migrations-tournee",
-  "private": "true",
-  "version": "0.0.1",
+  "name": "@the_beard/postgres-migrations-nuj",
+  "version": "0.0.6",
   "description": "Stack Overflow style database migrations for PostgreSQL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,20 +34,22 @@
     "fix-formatting": "./node_modules/.bin/prettier '**/*.ts' --write",
     "test-integration": "ava --config ava.config.integration.cjs",
     "test-unit": "ava --config ava.config.unit.cjs",
-    "build": "tsc --project tsconfig-build.json"
+    "build": "tsc --project tsconfig-build.json",
+    "postbuild": "npm run copy-files",
+    "copy-files": "copyfiles -u 1 \"src/migrations/*.sql\" dist"
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "dependencies": {
-    "pg": "^8.6.0",
+    "copyfiles": "^2.4.1",
+    "pg": "^8.11.3",
     "rsync": "^0.6.1",
     "sql-template-strings": "^2.2.2"
   },
   "devDependencies": {
     "@types/node": "^10.17.60",
-    "@types/pg": "^8.6.0",
+    "@types/pg": "^8.11.4",
     "@types/sinon": "^9.0.11",
     "ava": "^3.15.0",
     "fit-commit-js": "^0.3.2",

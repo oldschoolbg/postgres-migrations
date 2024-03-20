@@ -11,14 +11,14 @@ export function withConnection<T>(
         log("Connecting to database...")
         await client.connect()
         log("... connected to database")
-      } catch (e) {
+      } catch (e: any) {
         log(`Error connecting to database: ${e.message}`)
         throw e
       }
 
       const result = await f(client)
       return result
-    } catch (e) {
+    } catch (e: any) {
       log(`Error using connection: ${e.message}`)
       throw e
     } finally {
@@ -27,7 +27,7 @@ export function withConnection<T>(
         log("Closing connection...")
         await client.end()
         log("... connection closed")
-      } catch (e) {
+      } catch (e: any) {
         log(`Error closing the connection: ${e.message}`)
       }
     }

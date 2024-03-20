@@ -14,6 +14,7 @@ export interface ConnectionParams {
   readonly password: string
   readonly host: string
   readonly port: number
+  readonly ssl?: any
 }
 
 export interface ClientParams {

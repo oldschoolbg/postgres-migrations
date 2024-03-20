@@ -20,14 +20,14 @@ export function withAdvisoryLock<T>(
           }
         }
         log("... acquired advisory lock")
-      } catch (e) {
+      } catch (e: any) {
         log(`Error acquiring advisory lock: ${e.message}`)
         throw e
       }
 
       const result = await f(client)
       return result
-    } catch (e) {
+    } catch (e: any) {
       log(`Error while using lock: ${e.message}`)
       throw e
     } finally {
@@ -35,7 +35,7 @@ export function withAdvisoryLock<T>(
         log("Releasing advisory lock...")
         await client.query("SELECT pg_advisory_unlock(-8525285245963000605);")
         log("... released advisory lock")
-      } catch (e) {
+      } catch (e: any) {
         log(`Error releasing advisory lock: ${e.message}`)
       }
     }
